@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--个人信息界面-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>我的主页</title>
+    <meta name="keywords" content="前端模板">
+    <meta name="description" content="前端模板">
+
+    <script  type="text/javascript" th:src="@{/js/jquery/jquery-2.1.4.min.js}" src="../static/js/jquery/jquery-2.1.4.min.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/layui.js}" src="../static/layui/layui.js"></script>
+    <script  type="text/javascript" th:src="@{/js/index/index.js}" src="../static/js/index/index.js" ></script>
+    <script  type="text/javascript" th:src="@{/js/index/freezeheader.js}" src="../static/js/index/freezeheader.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/lay/modules/layer.js}" src="../static/layui/lay/modules/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layer/default/layer.css}" href="../static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="../static/css/global.css"/>
+
+
+
+    <!--
+    -->
+</head>
+<body>
+
+<div class="layui-container container viewair" style="display: none" th:fragment="searchair" id="searchair">
+    <div class="layui-tab layui-bg-gray">
+        <ul class="layui-tab-title">
+            <li class="layui-this">按航班查询</li>
+            <li>按地点查询</li>
+            <li>按时间查询</li>
+            <li>按公司查询</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <label>航班号:</label>
+                <input class="layui-input-inline" id="anum" name="anum" placeholder="请输入航班号"/>
+                <button class="btn"  onclick="anum()">查询</button>
+                <table class="layui-table" lay-size="sm" id="anumtable">
+                </table>
+            </div>
+            <div class="layui-tab-item">
+                <label>出发地-目的地:</label>
+                <input id="showplace1" placeholder="请输入出发地"/> —
+                <input id="showplace2" placeholder="请输入目的地"/>
+                <input id="showplace" type="hidden"/>
+                <button class="btn" onclick="aplace()">查询</button>
+                <table class="layui-table" lay-size="sm" id="placetable">
+                </table>
+            </div>
+            <div class="layui-tab-item">
+                <label>出发日期:</label>
+                <input class="layui-input-inline" id="showtime"  type="date"/>
+                <button class="btn" onclick="atime()">查询</button>
+                <table class="layui-table" lay-size="sm" id="timetable">
+                </table>
+            </div>
+            <div class="layui-tab-item">
+                <label>航班公司:</label>
+                <input class="layui-input-inline" id="showcompany" placeholder="请输入航班公司"/>
+                <button class="btn" onclick="acompany()">查询</button>
+                <table class="layui-table" lay-size="sm" id="companytable">
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="layui-container container viewair" style="display: none" th:fragment="addair" id="addair">
+    <form class="layui-form" action="/admin/addair" method="post">
+        <div class="layui-form-item">
+            <label class="layui-form-label">航班号</label>
+            <div class="layui-input-block">
+                <input type="text" name="anum" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="display:inline">出发地-目的地</label>
+            <input name="place1"  class="layui-input" style="display:inline;width: 410px" placeholder="请输入出发地"/>
+            <div style="display:inline;text-align: center">—</div>
+            <input name="place2"  class="layui-input" style="display:inline;width: 410px" placeholder="请输入目的地"/>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出发日期</label>
+            <div class="layui-input-inline"><input type="date" name="atime" class="layui-input"/></div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">航班公司</label>
+            <div class="layui-input-block">
+                <input type="text" name="acompany" required  lay-verify="required" placeholder="请输入航班公司" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">票价</label>
+            <div class="layui-input-block">
+                <input type="text" name="aprice" required  lay-verify="required" placeholder="请输入航班公司" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">机票数量</label>
+            <div class="layui-input-block">
+                <input type="text" name="aleft" required  lay-verify="required" placeholder="请输入航班公司" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" type="submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

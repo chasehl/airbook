@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--个人信息界面-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>我的主页</title>
+    <meta name="keywords" content="前端模板">
+    <meta name="description" content="前端模板">
+
+    <script  type="text/javascript" th:src="@{/js/jquery/jquery-2.1.4.min.js}" src="../static/js/jquery/jquery-2.1.4.min.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/layui.js}" src="../static/layui/layui.js"></script>
+    <script  type="text/javascript" th:src="@{/js/index/index.js}" src="../static/js/index/index.js" ></script>
+    <script  type="text/javascript" th:src="@{/js/index/freezeheader.js}" src="../static/js/index/freezeheader.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/lay/modules/layer.js}" src="../static/layui/lay/modules/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layer/default/layer.css}" href="../static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="../static/css/global.css"/>
+
+
+
+    <style>
+        *{margin: 0;padding: 0}
+        .airport{
+            width: 100%;
+            height: 110px;
+            margin-bottom: 30px;
+        }
+        .component{display: inline-block;
+            padding: 28px 5px 24px;
+            vertical-align: top;}
+        .logo1{width: 168px}
+        .logo_item{
+            margin: 0 3px 5px 10px;}
+        .price{text-align: center}
+        .time{ font-size: 25px;
+            line-height: 25px;}
+        .ticket span{
+            color: #999;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .price_item{font-size: 28px;
+            color: #BB0000;
+            line-height: 100%;
+            text-align: center;}
+        .price2_item{
+            line-height: 16px;
+            color: #999;
+            white-space: nowrap;}
+        .arrow{
+            height: 40px;
+            background:url(../images/flight_arrow1.png)
+            no-repeat center right
+        }
+    </style>
+
+    <style type="text/css">
+        .footer{
+
+            height: 100px;
+
+            width: 100%;
+
+            position: fixed;
+
+            bottom: 0;
+
+            background-color: #eeeeee;
+
+        }
+    </style>
+</head>
+<body>
+<script>
+    function unbook(aid,uid,id) {
+          location.href='/airbook/unbook?id='+id+'&uid='+uid+'&aid='+aid;
+    }
+</script>
+
+<div class="layui-header header">
+    <div class="main">
+        <ul class="layui-nav layui-nav-left" lay-filter="filter">
+            <a class="logo" href="/airbook/home" title="Fly">Fly</a>
+            <li class="layui-nav-item nav-left">
+                <a href="/airbook/userbooking">我要订票</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/airbook/userlist">我的行程</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/airbook/userset">我的信息</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<div class="layui-container container" style=" padding-top:50px;">
+    <div class="fly-home">
+
+        <h1>
+            <font size="6">你好！</font>
+            <font th:text="${user.uname}" size="6"></font>
+            <i class="iconfont icon-nan"></i><!-- <i class="iconfont icon-nv"></i> -->
+        </h1>
+        <p class="fly-home-info">
+            <i class="iconfont icon-chengshi"></i><span th:text="'来自'+${user.ucity}"></span>
+            <a class="fly-home-sign" href="/airbook/userset">&nbsp&nbsp修改我的信息</a>
+        </p>
+
+
+    </div>
+
+
+    <div class="main fly-home-main" style="border:0px; border-style:solid">
+
+        <div class="layui-inline fly-home-jie">
+            <div class="fly-panel">
+                <h1 class="fly-panel-title" th:text="${user.uname}+'的机票信息'" style="text-align: center"></h1>
+
+                <div class="layui-inline fly-home-da " style="width: 960px">
+                <ul class="home-jieda" style="" th:each="userlist:${userlist}">
+                    <li class="airport">
+                        <div class="home-dacontent layui-row" style="height: 120px" >
+                            <font th:text="${userlist.aplace}"size="5"></font><br/>
+                        <div class="component logo1 layui-col-md3">
+                            <div class="logo_item">
+                                <strong th:text="${userlist.acompany}"></strong>
+                                <span th:text="${userlist.anum}"></span>
+                            </div>
+                            <div class="plane_item">
+                                <span style="color: gray;text-align: center" th:text="'用户：'+${userlist.username}"></span>
+                            </div>
+                        </div>
+                        <div class="component price layui-col-md2">
+                            <div class="time_item"><strong class="time">5月3日</strong></div>
+                            <div class="price2_item" th:text="${userlist.username}">虹桥国际机场T2</div>
+                        </div>
+
+                            <div class="component layui-col-md2"><div class="arrow"></div></div>
+
+                        <div class="component price layui-col-md2">
+                            <div class="time_item"><strong class="time">5月4日</strong></div>
+                            <div class="price2_item">白云国际机场T1</div>
+                        </div>
+                        <div class="component price layui-col-md3">
+                            <div><span class="price_item" th:text="'￥'+${userlist.aprice}"></span></div>
+                            <div class="price2_item"><span>单程总价</span><button class="layui-btn-mini"  th:onclick="'javascript:unbook('+${userlist.aid}+','+${userlist.uid}+','+${userlist.id}+')' ">退票</button></div>
+                        </div>
+                        </div>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </div>
+        <hr class="layui-bg-green" style="height:2px;">
+        <div class="layui-inline fly-home-da">
+            <div class="fly-panel">
+                <h2 class="fly-panel-title">贤心 最近的回答</h2>
+                <ul class="home-jieda">
+                    <li>
+                        <p>
+                            <span>1分钟前</span>
+                            在<a href="" target="_blank">tips能同时渲染多个吗?</a>中回答：
+                        </p>
+
+                        <div class="home-dacontent">
+                            尝试给layer.photos加上这个属性试试：
+                            <pre>full: true</pre>
+                            文档没有提及
+
+                        </div>
+                    </li>
+                    <li>
+                        <p>
+                            <span>5分钟前</span>
+                            在<a href="" target="_blank">在Fly社区用的是什么系统啊?</a>中回答：
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!--分页
+<div id="page"></div>
+-->
+<div class="footer" style="text-align: center;">
+    <hr class="layui-bg-red">
+    <p><a href="/" class="layui-bg-red">安全退出</a>基于springboot的机票预定系统2025 &copy;王海霖</p>
+</div>
+</body>
+</html>

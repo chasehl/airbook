@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>我的主页</title>
+  <meta name="keywords" content="前端模板">
+  <meta name="description" content="前端模板">
+
+  <script  type="text/javascript" th:src="@{/js/jquery/jquery-2.1.4.min.js}" src="../../static/js/jquery/jquery-2.1.4.min.js"></script>
+  <script  type="text/javascript" th:src="@{/layui/layui.js}" src="../../static/layui/layui.js"></script>
+  <script  type="text/javascript" th:src="@{/js/index/index.js}" src="../../static/js/index/index.js" ></script>
+  <script  type="text/javascript" th:src="@{/js/index/freezeheader.js}" src="../../static/js/index/freezeheader.js"></script>
+  <script  type="text/javascript" th:src="@{/layui/lay/modules/layer.js}" src="../../static/layui/lay/modules/layer.js"></script>
+  <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../../static/layui/css/layui.css" media="all"/>
+  <link rel="stylesheet" th:href="@{/layui/css/modules/layer/default/layer.css}" href="../../static/layui/css/modules/layer/default/layer.css"/>
+  <link rel="stylesheet" th:href="@{/css/global.css}" href="../../static/css/global.css"/>
+
+  <!--用户咨询界面-->
+</head>
+<body>
+<div class="layui-header header">
+  <div class="main">
+    <ul class="layui-nav layui-nav-left" lay-filter="filter">
+      <a class="logo" href="/airbook/home" title="Fly">Fly</a>
+      <li class="layui-nav-item nav-left">
+        <a href="/airbook/userserach">机票查询</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/airbook/userbooking">我要订票</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/airbook/userask">在线咨询</a>
+      </li>
+      <li class="layui-nav-item">
+        <a href="/airbook/userlist">我</a>
+      </li>
+    </ul>
+    <ul class="layui-nav layui-layout-right layui-nav-right" lay-filter="filter">
+      <li class="layui-nav-item">
+        <p th:text="${user.uname}">
+      </li>
+      <li class="layui-nav-item">
+        <a href="/airbook/home">我的主页<span class="layui-badge-dot"></span></a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+    <div class="layui-container container" style="padding-top:70px;">
+   
+    	<div class="main fly-user-main layui-clear">
+  <ul class="layui-nav layui-nav-tree layui-inline" lay-filter="user">
+    <li class="layui-nav-item">
+      <a href="../home.html">
+        <i class="layui-icon">&#xe609;</i>
+        我的主页
+      </a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="user_center.html">
+        <i class="layui-icon">&#xe612;</i>
+        用户中心
+      </a>
+    </li>
+    <li class="layui-nav-item">
+      <a href="../userset.html">
+        <i class="layui-icon">&#xe620;</i>
+        基本设置
+      </a>
+    </li>
+    <li class="layui-nav-item layui-this">
+      <a href="userask.html">
+        <i class="layui-icon">&#xe611;</i>
+        我的消息
+      </a>
+    </li>
+  </ul>
+
+  
+  <div class="fly-panel fly-panel-user">
+    <div class="layui-tab layui-tab-brief" lay-filter="user" id="LAY_msg" style="margin-top: 15px;">
+	    <button class="layui-btn layui-btn-danger" id="LAY_delallmsg">清空全部消息</button>
+	    <div  id="LAY_minemsg" style="margin-top: 10px;">
+        <!--<div class="fly-none">您暂时没有最新消息</div>-->
+        <ul class="mine-msg">
+          <li data-id="123">
+            <blockquote class="layui-elem-quote">
+              <a href="/jump?username=Absolutely" target="_blank"><cite>Absolutely</cite></a>回答了您的求解<a target="_blank" href="article_details.html"><cite>layui后台框架</cite></a>
+            </blockquote>
+            <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
+          </li>
+          <li data-id="123">
+            <blockquote class="layui-elem-quote">
+              系统消息：欢迎使用 layui
+            </blockquote>
+            <p><span>1小时前</span><a href="javascript:;" class="layui-btn layui-btn-small layui-btn-danger fly-delete">删除</a></p>
+          </li>
+        </ul>
+      </div>
+	  </div>
+	</div>
+
+  </div>
+</div>
+<div class="footer">
+  <hr class="layui-bg-red">
+  <p><a href="http://itdaima.com/">基于springboot的机票预定系统</a> 2025 &copy;王海霖</p>
+</div>
+    </body>
+</html>

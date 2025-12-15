@@ -1,0 +1,404 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--个人信息界面-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>我的主页</title>
+    <meta name="keywords" content="前端模板">
+    <meta name="description" content="前端模板">
+
+    <script  type="text/javascript" th:src="@{/js/jquery/jquery-2.1.4.min.js}" src="../static/js/jquery/jquery-2.1.4.min.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/layui.js}" src="../static/layui/layui.js"></script>
+    <script  type="text/javascript" th:src="@{/js/index/index.js}" src="../static/js/index/index.js" ></script>
+    <script  type="text/javascript" th:src="@{/js/index/freezeheader.js}" src="../static/js/index/freezeheader.js"></script>
+    <script  type="text/javascript" th:src="@{/layui/lay/modules/layer.js}" src="../static/layui/lay/modules/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layer/default/layer.css}" href="../static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="../static/css/global.css"/>
+    <link rel="stylesheet" href="//apps.bdimg.com/libs/jqueryui/1.10.4/css/jquery-ui.min.css">
+    <script src="//apps.bdimg.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+
+    <style type="text/css">
+        .footer{
+
+            height: 100px;
+
+            width: 100%;
+
+            position: fixed;
+
+            bottom: 0;
+
+            background-color: #eeeeee;
+
+        }
+    </style>
+    <script>
+        function anum() {
+            var table=null;
+            $.ajax({
+                type : 'post',
+                url : '/anum',
+                data: {anum:$("#anum").val()},
+
+                dataType : "json",
+
+                success : function(data) {
+                    $("#anumtable").html(
+                        '<colgroup>\n' +
+                        '<col width="100">\n' +
+                        '<col width="300">\n' +
+                        '<col width="300">\n' +
+                        '<col width="150">\n' +
+                        '<col width="100">\n' +
+                        '<col width="150">\n' +
+                        '<col width="150">\n' +
+                        '</colgroup>\n' +
+                        '<thead>\n' +
+                        '<tr>\n' +
+                        '<th>航班号</th>\n' +
+                        '<th>出发地-目的地</th>\n' +
+                        '<th>出发时间</th>\n' +
+                        '<th>航班公司</th>\n' +
+                        '<th>剩余票</th>\n' +
+                        '<th colspan="2">订单维护操作</th>\n' +
+                        '</tr>\n' +
+                        '</thead>\n' +
+                        '<tbody id="anumtabletr"></tbody>\n'
+                    );
+                    $.each(data,function(i,value){
+                        $("#anumtabletr").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td><td>" +"<a href='javascript:void(0);' onclick='changeair(" +JSON.stringify(value)+
+                                ")'>修改机票</a></td>"+
+                                "</td><td>" +"<a href='/admin/delete?id=" + value.id +
+                                "'>删除机票</a></td></tr>"
+                        );
+
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+    <script>
+        function aplace() {
+
+            var table=null;
+            $("#showplace").val($("#showplace1").val()+"-"+$("#showplace2").val());
+            $.ajax({
+                type : 'post',
+                url : '/aplace',
+                data: {aplace:$("#showplace").val()},
+
+
+                dataType : "json",
+
+                success : function(data) {
+                    $("#placetable").html(
+                        '<colgroup>\n' +
+                        '<col width="150">\n' +
+                        '<col width="500">\n' +
+                        '<col width="500">\n' +
+                        '<col width="200">\n' +
+                        '<col width="100">\n' +
+                        '</colgroup>\n' +
+                        '<thead>\n' +
+                        '<tr>\n' +
+                        '<th>航班号</th>\n' +
+                        '<th>出发地-目的地</th>\n' +
+                        '<th>出发时间</th>\n' +
+                        '<th>航班公司</th>\n' +
+                        '<th>剩余票</th>\n' +
+                        '</tr>\n' +
+                        '</thead>\n' +
+                        '<tbody id="placetabletr"></tbody>')
+
+                    $.each(data,function(i,value){
+                        $("#placetabletr").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td></tr>"
+                        );
+
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+    <script>
+        function atime() {
+            var table=null;
+            $.ajax({
+                type : 'post',
+                url : '/atime',
+                data: {atime:$("#showtime").val()},
+                dataType : "json",
+                success : function(data) {
+                    $("#timetable").html('<colgroup>\n' +
+                        '<col width="150">\n' +
+                        '<col width="500">\n' +
+                        '<col width="500">\n' +
+                        '<col width="200">\n' +
+                        '<col width="100">\n' +
+                        '</colgroup>\n' +
+                        '<thead>\n' +
+                        '<tr>\n' +
+                        '<th>航班号</th>\n' +
+                        '<th>出发地-目的地</th>\n' +
+                        '<th>出发时间</th>\n' +
+                        '<th>航班公司</th>\n' +
+                        '<th>剩余票</th>\n' +
+                        '</tr>\n' +
+                        '</thead>\n' +
+                        '<tbody id="timetabletr"></tbody>')
+                    $.each(data,function(i,value){
+                        $("#timetabletr").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td></tr>"
+                        );
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+    <script>
+        function acompany() {
+            var table=null;
+            $.ajax({
+                type : 'post',
+                url : '/acompany',
+                data: {
+                    acompany:$("#showcompany")
+                        .val()},
+                dataType : "json",
+                success : function(data) {
+                    console.log(data);
+                    $("#companytable").html(
+                        '<colgroup>\n' +
+                        '<col width="150">\n' +
+                        '<col width="500">\n' +
+                        '<col width="500">\n' +
+                        '<col width="200">\n' +
+                        '<col width="100">\n' +
+                        '</colgroup>\n' +
+                        '<thead>\n' +
+                        '<tr>\n' +
+                        '<th>航班号</th>\n' +
+                        '<th>出发地-目的地</th>\n' +
+                        '<th>出发时间</th>\n' +
+                        '<th>航班公司</th>\n' +
+                        '<th>剩余票</th>\n' +
+                        '</tr>\n' +
+                        '</thead>\n' +
+                        '<tbody id="companytabletr"></tbody>')
+                    $.each(data,function(i,value){
+                        $("#companytabletr").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td></tr>"
+                        );
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<script type="text/javascript">
+
+
+
+    function changeair(value) {
+
+        $( "#airchangeform" ).dialog( "open");
+        $("#anumchange").val(value.anum)
+        $("#aplacechange").val(value.aplace)
+        $("#atimechange").val(value.atime)
+        $("#acompanychange").val(value.acompany)
+        $("#apricechange").val(value.aprice)
+        $("#aleftchange").val(value.aleft)
+        $("#aidchange").val(value.id)
+
+
+    }
+
+   function searchair(){
+       $(".viewair").css("display","none");
+       document.getElementById("searchair").style.display="";
+   }
+   function addair(){
+       $(".viewair").css("display","none");
+       document.getElementById("addair").style.display="";
+   }
+
+</script>
+
+<script>
+    $(function() {
+        $( "#airchangeform" ).dialog({
+            width:400,
+            height:450,
+            resizable:false,
+            modal: true,
+            autoOpen: false,
+            position: { using:function(pos){
+                    var topOffset = $(this).css(pos).offset().top;
+                    if (topOffset = 0||topOffset>0) {
+                        $(this).css('top', ($(window).height()-510)/2);
+                    }
+                }},
+        });});
+</script>
+
+<!--机票信息修改-->
+<div id="airchangeform" title="请维护机票信息">
+    <form class="layui-form" action="/admin/changeair" method="post">
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width:100px" id="adminname">航班号：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="anum" id="anumchange" required  lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"style="width: 100px">出发地-目的地：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="aplace" id="aplacechange" required lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"style="width: 100px">出发时间：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="atime" id="atimechange" required lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"style="width: 100px">航班公司：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="acompany" id="acompanychange" required lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"style="width: 100px">机票价格：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="aprice" id="apricechange" required lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label"style="width: 100px">机票余票：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="aleft" id="aleftchange" required lay-verify="required"  autocomplete="off" class="layui-input">
+            </div>
+        </div>
+
+        <input style="display: none" id="aidchange" name="id"/>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button  class="layui-btn layui-bg-black" type="submit">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="layui-header header">
+    <div class="main">
+        <ul class="layui-nav layui-nav-left" lay-filter="filter">
+            <a class="logo" href="/airbook/home" title="Fly">Fly</a>
+            <li class="layui-nav-item nav-left">
+                <a href="javascript:void(0);">维护机票信息</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="javascript:void(0);" onclick="searchair()">查询机票</a></dd>
+                    <dd><a href="javascript:void(0);" onclick="addair()">添加机票</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);">维护订单信息</a>
+                <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                    <dd><a href="javascript:void(0);">查询订单</a></dd>
+                    <dd><a href="javascript:void(0);">添加订单</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);">修改用户权限</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:void(0);">用户咨询</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div th:replace="admin_searchair :: searchair"></div>
+<div th:replace="admin_searchair :: addair"></div>
+<div class="footer" style="text-align: center;">
+    <hr class="layui-bg-red">
+    <p><a href="/" class="layui-bg-red">安全退出</a>基于springboot的机票预定系统2025 &copy;王海霖</p>
+</div>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+        var element = layui.element;
+
+        //…
+    });
+</script>
+<!--<script>
+    $('#btn').click(function () {
+        var url = '/blog/ajaxTest';
+        $('#div1').load(url);
+
+    });
+</script>-->
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(data){
+            layer.msg(JSON.stringify(data.field));
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

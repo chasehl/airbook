@@ -1,0 +1,345 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--我要订票界面-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>我的主页</title>
+    <meta name="keywords" content="前端模板">
+    <meta name="description" content="前端模板">
+
+    <script type="text/javascript" th:src="@{/js/jquery/jquery-2.1.4.min.js}"
+            src="../static/js/jquery/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" th:src="@{/layui/layui.js}" src="../static/layui/layui.js"></script>
+    <script type="text/javascript" th:src="@{/js/index/index.js}" src="../static/js/index/index.js"></script>
+    <script type="text/javascript" th:src="@{/js/index/freezeheader.js}"
+            src="../static/js/index/freezeheader.js"></script>
+    <script type="text/javascript" th:src="@{/layui/lay/modules/layer.js}"
+            src="../static/layui/lay/modules/layer.js"></script>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}" href="../static/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" th:href="@{/layui/css/modules/layer/default/layer.css}"
+          href="../static/layui/css/modules/layer/default/layer.css"/>
+    <link rel="stylesheet" th:href="@{/css/global.css}" href="../static/css/global.css"/>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style type="text/css">
+        a:link, .div2 a:link {color: rgba(3, 2, 3, 0.82)} /* 未被访问的链接 蓝色 */
+        a:visited, .div2 a:visited {color: #010101} /* 已被访问过的链接 蓝色 */
+        a:active, .div2 a:active {color: #ff212b} /* 鼠标点中激活链接 蓝色 */
+    </style>
+
+    <style type="text/css">
+        .footer{
+
+            height: 100px;
+
+            width: 100%;
+
+            position: fixed;
+
+            bottom: 0;
+
+            background-color: #eeeeee;
+
+        }
+    </style>
+
+    <script>
+
+        function anum() {
+            var table=null;
+            $.ajax({
+                type : 'post',
+                url : '/anum',
+                data: {anum:$("#anum").val()},
+
+                dataType : "json",
+
+                success : function(data) {
+                    $.each(data,function(i,value){
+                        table +=
+                            "<tr><td>" +value.anum+
+                            "</td><td>" +value.aplace+
+                            "</td><td>" +value.atime+
+                            "</td><td>" +value.acompany+
+                            "</td><td>" +value.aleft
+                        if(value.aleft!=0){
+                            table += "</td><td>" +"<a class='book' id='book"+value.id+"' href='/airbook/book?id=" + value.id +
+                                "'>订票</a>"+"</td></tr>";
+                        }else{
+                            table+= "</td><td><a class='wait' href='/airbook/wait?id=" + value.id +
+                                "'>抢票</a>" +
+                                "</td></tr>"
+                        }
+                        $("#anumtable").html(table);
+                    })
+
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+
+    <script>
+
+        function aplace() {
+
+            var table=null;
+            $("#showplace").val($("#showplace1").val()+"-"+$("#showplace2").val());
+
+            $.ajax({
+                type : 'post',
+                url : '/aplace',
+                data: {aplace:$("#showplace").val()},
+
+
+                dataType : "json",
+
+                success : function(data) {
+
+                    $.each(data,function(i,value){
+
+                        $("#placetable").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td><td>" +"<a href='/airbook/book?id=" + value.id +
+                                "'>订票</a></td></tr>"
+                        );
+
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+    <script>
+
+        function acompany() {
+
+            var table=null;
+
+            $.ajax({
+                type : 'post',
+                url : '/acompany',
+                data: {acompany:$("#showcompany").val()},
+
+
+                dataType : "json",
+
+                success : function(data) {
+                    console.log(data);
+
+                    $.each(data,function(i,value){
+
+                        $("#companytable").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td><td>" +"<a href='/airbook/book?id=" + value.id +
+                                "'>订票</a></td></tr>"
+                        );
+
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+    <script>
+        function atime() {
+
+            var table=null;
+
+            $.ajax({
+                type : 'post',
+                url : '/atime',
+                data: {atime:$("#showtime").val()},
+
+                dataType : "json",
+
+                success : function(data) {
+                    console.log(data);
+                    $.each(data,function(i,value){
+                        $("#timetable").html(
+                            table+=
+                                "<tr><td>" +value.anum+
+                                "</td><td>" +value.aplace+
+                                "</td><td>" +value.atime+
+                                "</td><td>" +value.acompany+
+                                "</td><td>" +value.aleft+
+                                "</td><td>" +"<a href='/airbook/book?id=" + value.id +
+                                "'>订票</a></td></tr>"
+                        );
+
+                    })
+                },
+                error:function () {
+                    alert("未查到航班")
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="layui-header header">
+        <div class="main">
+            <ul class="layui-nav layui-nav-left" lay-filter="filter">
+                <a class="logo" href="/airbook/home" title="Fly">Fly</a>
+                <li class="layui-nav-item nav-left">
+                    <a href="/airbook/userbooking">我要订票</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/airbook/userlist">我的行程</a>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="/airbook/userset">我的信息</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="layui-container container" style="padding-top:70px;">
+        <div class="layui-tab layui-bg-gray">
+            <ul class="layui-tab-title">
+                <li class="layui-this">按航班查询</li>
+                <li>按地点查询</li>
+                <li>按时间查询</li>
+                <li>按公司查询</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <label>航班号:</label>
+                    <input class="layui-input-inline" id="anum" name="anum" placeholder="请输入航班号"/>
+                    <button class="btn"  onclick="anum()">查询</button>
+                    <table class="layui-table" lay-size="sm">
+                        <colgroup>
+                            <col width="150">
+                            <col width="400">
+                            <col width="400">
+                            <col width="200">
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>航班号</th>
+                            <th>出发地-目的地</th>
+                            <th>出发时间</th>
+                            <th>航班公司</th>
+                            <th>剩余票</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="anumtable"></tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+                    <label>出发地-目的地:</label>
+                    <input class="layui-input-inline" id="showplace1" placeholder="请输入出发地"/> —
+                    <input class="layui-input-inline" id="showplace2" placeholder="请输入目的地"/>
+                    <input id="showplace" type="hidden"/>
+                    <button class="btn" onclick="aplace()">查询</button>
+
+                    <table class="layui-table" lay-size="sm">
+                        <colgroup>
+                            <col width="150">
+                            <col width="400">
+                            <col width="400">
+                            <col width="200">
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>航班号</th>
+                            <th>出发地-目的地</th>
+                            <th>出发时间</th>
+                            <th>航班公司</th>
+                            <th>剩余票</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="placetable"></tbody>
+                    </table>
+                </div>
+                <div class="layui-tab-item">
+
+                    <label>出发日期:</label>
+                    <input class="layui-input-inline" id="showtime"  type="date"/>
+                    <button class="btn" onclick="atime()">查询</button>
+                    <table class="layui-table" lay-size="sm">
+                        <colgroup>
+                            <col width="150">
+                            <col width="400">
+                            <col width="400">
+                            <col width="200">
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>航班号</th>
+                            <th>出发地-目的地</th>
+                            <th>出发时间</th>
+                            <th>航班公司</th>
+                            <th>剩余票</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="timetable"></tbody>
+                    </table>
+
+
+                </div>
+                <div class="layui-tab-item">
+
+                    <label>航班公司:</label>
+                    <input class="layui-input-inline" id="showcompany" placeholder="请输入航班公司"/>
+                    <button class="btn" onclick="acompany()">查询</button>
+
+                    <table class="layui-table" lay-size="sm">
+                        <colgroup>
+                            <col width="150">
+                            <col width="400">
+                            <col width="400">
+                            <col width="200">
+                            <col width="100">
+                            <col width="100">
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>航班号</th>
+                            <th>出发地-目的地</th>
+                            <th>出发时间</th>
+                            <th>航班公司</th>
+                            <th>剩余票</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody id="companytable"></tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer" style="text-align: center;">
+        <hr class="layui-bg-red">
+        <p><a href="/" class="layui-bg-red">安全退出</a>基于springboot的机票预定系统2025 &copy;王海霖</p>
+    </div>
+</body>
+</html>
